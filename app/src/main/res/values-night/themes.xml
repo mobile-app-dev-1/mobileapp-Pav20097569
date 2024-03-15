@@ -1,7 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.MobileAssignment" parent="Theme.Material3.DayNight.NoActionBar">
+
+    <style name="Base.Theme.MobileAssignment.Dark" parent="Base.Theme.MobileAssignment">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/blue_dark</item>
+        <item name="colorPrimaryVariant">@color/blue_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorAccent">@color/blue_accent</item>
+        <!-- Add more theme attributes as needed -->
     </style>
+
 </resources>

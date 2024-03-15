@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="blue_primary">#2196F3</color> <!-- Main shade of blue -->
+    <color name="blue_dark">#0D47A1</color> <!-- Darker shade of blue -->
+    <color name="blue_light">#64B5F6</color> <!-- Lighter shade of blue -->
+    <color name="blue_accent">#03A9F4</color> <!-- Accent shade of blue -->
+    <color name="white">#FFFFFF</color>
+
+    <color name="blue_primary_dark">#0D47A1</color> <!-- Main shade of blue (darker) -->
+    <color name="blue_dark_dark">#000051</color> <!-- Even darker shade of blue -->
+    <color name="blue_light_dark">#1976D2</color> <!-- Lighter shade of blue -->
+    <color name="blue_accent_dark">#0288D1</color> <!-- Accent shade of blue (darker) -->
 </resources>

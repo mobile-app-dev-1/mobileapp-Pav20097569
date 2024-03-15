@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- activity_main.xml -->
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,9 +7,7 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
-    <!-- Greeting -->
-
-    <!-- Pending Tasks Section -->
+    <!-- Existing TextViews -->
     <TextView
         android:id="@+id/text_greeting"
         android:layout_width="wrap_content"
@@ -18,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="119dp"
         android:paddingBottom="8dp"
-        android:text="Hi, [Name]!"
+        android:text="@string/greeting_text"
         android:textColor="@android:color/black"
         android:textSize="24sp" />
 
@@ -26,23 +23,20 @@
         android:id="@+id/text_pending_tasks_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your Pending Tasks:"
+        android:text="@string/pending_tasks_title"
         android:textSize="18sp"
         android:textColor="@android:color/black"
         android:layout_below="@id/text_greeting"
         android:paddingTop="16dp"
         android:paddingBottom="8dp" />
 
-    <LinearLayout
-        android:id="@+id/layout_pending_tasks"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@id/text_pending_tasks_title">
+
+
+
 
         <!-- Rounded Tabs with Task Information -->
         <!-- You can dynamically add these tabs using code based on your task data -->
 
-    </LinearLayout>
+
 
 </RelativeLayout>
