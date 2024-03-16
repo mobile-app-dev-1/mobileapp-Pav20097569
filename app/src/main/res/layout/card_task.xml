@@ -28,6 +28,18 @@
             android:textAppearance="?attr/textAppearanceBodyMedium"
             tools:text="A Description" />
 
+
+        <TextView
+            android:id="@+id/taskDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/taskDescription"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            tools:text="Task Date" />
+
+
+
+
     </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>

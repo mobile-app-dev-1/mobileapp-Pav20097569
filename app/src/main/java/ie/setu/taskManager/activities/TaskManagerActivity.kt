@@ -4,9 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import ie.setu.taskManager.R
@@ -15,11 +18,18 @@ import ie.setu.taskManager.helpers.showImagePicker
 import ie.setu.taskManager.main.MainApp
 import ie.setu.taskManager.models.TaskManagerModel
 import timber.log.Timber.i
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 class TaskManagerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var selectedDateTextView: TextView
+
 
     var task = TaskManagerModel()
     lateinit var app: MainApp
@@ -27,12 +37,22 @@ class TaskManagerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Inflate layout using data binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Initialize views
+        selectedDateTextView = findViewById(R.id.taskDate)
+        val chooseDateButton: Button = findViewById(R.id.btnDatePicker)
+
+        // Set click listener for chooseDateButton
+        chooseDateButton.setOnClickListener { showCalendarPicker() }
+
+        // Set toolbar title
         binding.topAppBar.title = title
         setSupportActionBar(binding.topAppBar)
 
+        // Initialize app and task
         app = application as MainApp
         var edit = false //tracks if we arrived here via an existing task
 
@@ -49,9 +69,12 @@ class TaskManagerActivity : AppCompatActivity() {
                 .into(binding.taskImage)
         }
 
+        // Set click listener for add button
         binding.btnAdd.setOnClickListener() {
             task.title = binding.taskTitle.text.toString()
             task.description = binding.taskDescription.text.toString()
+           // task.date = selectedDateTextView.text.toString() // Pass selected date
+            task.date = binding.taskDate.text.toString()
             if (task.title.isNotEmpty()) {
                 if (edit) {
                     app.tasks.update(task.copy())
@@ -68,11 +91,15 @@ class TaskManagerActivity : AppCompatActivity() {
             }
         }
 
+        // Set click listener for choose image button
         binding.chooseImage.setOnClickListener {
             showImagePicker(imageIntentLauncher)
         }
+
+        // Register image picker callback
         registerImagePickerCallback()
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_task, menu)
@@ -93,18 +120,36 @@ class TaskManagerActivity : AppCompatActivity() {
         imageIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             { result ->
-                when(result.resultCode){
+                when (result.resultCode) {
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Result ${result.data!!.data}")
-                            task.image = result.data!!.data!!
-                            Picasso.get()
-                                .load(task.image)
-                                .into(binding.taskImage)
+                            task.image = result.data!!.data.toString()
+                            Picasso.get().load(task.image).into(binding.taskImage)
                         } // end of if
                     }
-                    RESULT_CANCELED -> { } else -> { }
+
+                    RESULT_CANCELED -> {}
+                    else -> {}
                 }
             }
+
+    }
+
+    private fun showCalendarPicker() {
+        val builder = MaterialDatePicker.Builder.datePicker()
+        val picker = builder.build()
+
+        picker.addOnPositiveButtonClickListener { selection ->
+            val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+            calendar.time = Date(selection)
+            val selectedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
+            // Update the selected date in the TextView
+            selectedDateTextView.text = selectedDate
+        }
+
+        picker.show(supportFragmentManager, picker.toString())
     }
 }
+
+

@@ -65,6 +65,25 @@
                     android:padding="8dp" />
 
                 <Button
+                    android:id="@+id/btnDatePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:backgroundTint="?attr/colorSecondary"
+                    android:text="@string/due_date" /> <!-- Changed text to "Due Date" -->
+
+                <TextView
+                    android:id="@+id/taskDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:textSize="18sp" />
+
+                <Button
                     android:id="@+id/chooseImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -89,6 +108,7 @@
                     android:paddingBottom="8dp"
                     android:backgroundTint="?attr/colorSecondary"
                     android:text="@string/button_addTask" />
+
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

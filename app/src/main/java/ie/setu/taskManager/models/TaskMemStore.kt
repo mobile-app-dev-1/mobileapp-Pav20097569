@@ -25,6 +25,7 @@ class TaskMemStore : TaskStore {
         if (foundTask != null) {
             foundTask.title = task.title
             foundTask.description = task.description
+            foundTask.date = task.date
             logAll()
         }
     }
