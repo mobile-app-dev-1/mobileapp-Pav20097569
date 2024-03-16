@@ -7,5 +7,8 @@
     <string name="button_addTask">Dodaj Zadanie</string>
     <string name="hint_TaskTitle">Nazwa Zadania</string>
     <string name="hint_taskDescription">Wprowadź opis zadania</string>
+    <string name="hint_description">Opis</string>
+    <string name="hint_addtask">Dodaj Zadanie</string>
+
 
 </resources>
