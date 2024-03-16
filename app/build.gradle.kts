@@ -4,17 +4,21 @@ plugins {
 }
 
 android {
-    namespace = "ie.setu.mobileassignment"
+    namespace = "ie.setu.taskManager"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "ie.setu.mobileassignment"
+        applicationId = "ie.setu.taskManager"
         minSdk = 30
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 
     buildTypes {
@@ -46,4 +50,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation ("com.github.ajalt:timberkt:1.5.1")
+
+
 }

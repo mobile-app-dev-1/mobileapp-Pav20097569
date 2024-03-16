@@ -4,5 +4,6 @@
     <string name="app_name">MobileAssignment</string>
     <string name="greeting_text">Cześć, [Imię]!</string>
     <string name="pending_tasks_title">Twoje oczekujące zadania:</string>
-
+    <string name="button_addTask">Dodaj Zadanie</string>
+    <string name="hint_TaskTitle">Nazwa Zadania</string>
 </resources>

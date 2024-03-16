@@ -1,4 +1,4 @@
-package ie.setu.mobileassignment
+package ie.setu.taskManager
 
 import org.junit.Test
 

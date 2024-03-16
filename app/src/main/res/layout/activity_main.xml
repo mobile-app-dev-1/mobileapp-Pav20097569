@@ -1,42 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- activity_main.xml -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".MainActivity">
+    tools:context=".activities.TaskManagerActivity">
 
-    <!-- Existing TextViews -->
-    <TextView
-        android:id="@+id/text_greeting"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="119dp"
-        android:paddingBottom="8dp"
-        android:text="@string/greeting_text"
-        android:textColor="@android:color/black"
-        android:textSize="24sp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/text_pending_tasks_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pending_tasks_title"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-        android:layout_below="@id/text_greeting"
-        android:paddingTop="16dp"
-        android:paddingBottom="8dp" />
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorPrimary"
+            android:fitsSystemWindows="true"
+            app:elevation="0dip">
 
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbarAdd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.appbar.AppBarLayout>
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/appBarLayout"
+            android:fillViewport="true">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+                <EditText
+                    android:id="@+id/taskTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:autofillHints="hint"
+                    android:hint="@string/hint_TaskTitle"
+                    android:inputType="text"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:padding="8dp" />
 
-        <!-- Rounded Tabs with Task Information -->
-        <!-- You can dynamically add these tabs using code based on your task data -->
+                <Button
+                    android:id="@+id/btnAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:backgroundTint="?attr/colorSecondary"
+                    android:text="@string/button_addTask" />
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
 
-
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package ie.setu.mobileassignment.utils
+package ie.setu.taskManager.utils
 
 import mu.KotlinLogging
 

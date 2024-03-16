@@ -4,6 +4,7 @@
     <string name="app_name">MobileAssignment</string>
     <string name="greeting_text">Hi, [Name]!</string>
     <string name="pending_tasks_title">Your Pending Tasks:</string>
-
+    <string name="button_addTask">Add Task</string>
+    <string name="hint_TaskTitle">Task Name</string>
 
 </resources>
