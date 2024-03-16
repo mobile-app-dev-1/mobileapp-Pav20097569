@@ -1,41 +1,110 @@
 package ie.setu.taskManager.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
+import ie.setu.taskManager.R
 import ie.setu.taskManager.databinding.ActivityMainBinding
+import ie.setu.taskManager.helpers.showImagePicker
 import ie.setu.taskManager.main.MainApp
 import ie.setu.taskManager.models.TaskManagerModel
 import timber.log.Timber.i
+
 class TaskManagerActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
+    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+
     var task = TaskManagerModel()
     lateinit var app: MainApp
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.topAppBar.title = title
+        setSupportActionBar(binding.topAppBar)
+
         app = application as MainApp
-        i("Task Activity started...")
+        var edit = false //tracks if we arrived here via an existing task
+
+        i(getString(R.string.task_activity_started))
+
+        if (intent.hasExtra("task_edit")) {
+            edit = true
+            task = intent.extras?.getParcelable("task_edit")!!
+            binding.taskTitle.setText(task.title)
+            binding.taskDescription.setText(task.description)
+            binding.btnAdd.text = getString(R.string.save_task)
+            Picasso.get()
+                .load(task.image)
+                .into(binding.taskImage)
+        }
+
         binding.btnAdd.setOnClickListener() {
             task.title = binding.taskTitle.text.toString()
             task.description = binding.taskDescription.text.toString()
             if (task.title.isNotEmpty()) {
-                app.tasks.add(task.copy())
-                i("add Button Pressed: ${task}")
-                for (i in app.tasks.indices) {
-                    i("task[$i]:${this.app.tasks[i]}")
+                if (edit) {
+                    app.tasks.update(task.copy())
+                }
+                else{
+                    app.tasks.create(task.copy())
                 }
                 setResult(RESULT_OK)
                 finish()
             }
             else {
-                Snackbar.make(it,"Please Enter a title", Snackbar.LENGTH_LONG)
-                    .show()
+                Snackbar.make(it, getString(R.string.enter_task_title),
+                    Snackbar.LENGTH_LONG).show()
             }
         }
+
+        binding.chooseImage.setOnClickListener {
+            showImagePicker(imageIntentLauncher)
+        }
+        registerImagePickerCallback()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_task, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_cancel -> {
+                setResult(RESULT_CANCELED)
+                finish()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Result ${result.data!!.data}")
+                            task.image = result.data!!.data!!
+                            Picasso.get()
+                                .load(task.image)
+                                .into(binding.taskImage)
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 }

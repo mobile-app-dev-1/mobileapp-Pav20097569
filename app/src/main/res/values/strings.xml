@@ -2,13 +2,15 @@
 
 <resources>
     <string name="app_name">MobileAssignment</string>
-    <string name="greeting_text">Hi, [Name]!</string>
-    <string name="pending_tasks_title">Your Pending Tasks:</string>
     <string name="button_addTask">Add Task</string>
     <string name="hint_TaskTitle">Task Name</string>
-    <string name="hint_taskDescription">Enter task description</string>
-    <string name="hint_description">Description</string>
-    <string name="hint_addtask">AddTask</string>
-    <string name="menu_addTask" translatable="false" />
-
+    <string name="hint_taskDescription">Task description</string>
+    <string name="menu_addTask">Add</string>
+    <string name="menu_cancelTask">Cancel</string>
+    <string name="task_activity_started">Task Activity started…</string>
+    <string name="task_add_cancelled">Task Add Cancelled</string>
+    <string name="enter_task_title">Please Enter a Task Title</string>
+    <string name="save_task">Save Task</string>
+    <string name="button_addImage"> Add Image </string>
+    <string name="select_task_image">Select task image</string>
 </resources>
