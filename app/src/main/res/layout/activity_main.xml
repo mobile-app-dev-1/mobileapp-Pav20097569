@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+
                 <EditText
                     android:id="@+id/taskTitle"
                     android:layout_width="match_parent"
@@ -49,6 +50,17 @@
                     android:maxLength="25"
                     android:maxLines="1"
                     android:padding="8dp" />
+
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:hint="@string/hint_taskDescription"
+                    android:inputType="text"
+                    android:maxLines="3"
+                    android:padding="12dp" />
+
 
                 <Button
                     android:id="@+id/btnAdd"

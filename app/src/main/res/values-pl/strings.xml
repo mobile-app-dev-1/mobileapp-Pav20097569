@@ -6,4 +6,6 @@
     <string name="pending_tasks_title">Twoje oczekujące zadania:</string>
     <string name="button_addTask">Dodaj Zadanie</string>
     <string name="hint_TaskTitle">Nazwa Zadania</string>
+    <string name="hint_taskDescription">Wprowadź opis zadania</string>
+
 </resources>

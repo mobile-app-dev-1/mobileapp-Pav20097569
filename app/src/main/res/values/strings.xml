@@ -6,5 +6,6 @@
     <string name="pending_tasks_title">Your Pending Tasks:</string>
     <string name="button_addTask">Add Task</string>
     <string name="hint_TaskTitle">Task Name</string>
+    <string name="hint_taskDescription">Enter task description</string>
 
 </resources>
