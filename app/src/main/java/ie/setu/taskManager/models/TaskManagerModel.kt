@@ -1,6 +1,5 @@
 package ie.setu.taskManager.models
 
-import android.net.Uri
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 @Parcelize
@@ -9,5 +8,6 @@ data class TaskManagerModel(
     var title: String = "",
     var description: String = "",
     var image: String = "",
-    var date: String = "" // Add date property
+    var date: String = "",
 ) : Parcelable
+

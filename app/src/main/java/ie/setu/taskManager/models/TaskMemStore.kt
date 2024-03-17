@@ -1,13 +1,12 @@
 package ie.setu.taskManager.models
 
-
 import timber.log.Timber.i
 
 var lastId = 0L
+
 internal fun getId() = lastId++
 
 class TaskMemStore : TaskStore {
-
     val tasks = ArrayList<TaskManagerModel>()
 
     override fun findAll(): List<TaskManagerModel> {
@@ -21,7 +20,7 @@ class TaskMemStore : TaskStore {
     }
 
     override fun update(task: TaskManagerModel) {
-        var foundTask: TaskManagerModel? = tasks.find { p -> p.id == task.id }
+        val foundTask: TaskManagerModel? = tasks.find { p -> p.id == task.id }
         if (foundTask != null) {
             foundTask.title = task.title
             foundTask.description = task.description

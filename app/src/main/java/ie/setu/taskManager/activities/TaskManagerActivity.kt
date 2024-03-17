@@ -25,14 +25,13 @@ import java.util.Locale
 import java.util.TimeZone
 
 class TaskManagerActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
-    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
     private lateinit var selectedDateTextView: TextView
 
-
-    var task = TaskManagerModel()
-    lateinit var app: MainApp
+    // Initialize a TaskManagerModel object
+    private var task = TaskManagerModel()
+    private lateinit var app: MainApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,8 +53,9 @@ class TaskManagerActivity : AppCompatActivity() {
 
         // Initialize app and task
         app = application as MainApp
-        var edit = false //tracks if we arrived here via an existing task
+        var edit = false // tracks if we arrived here via an existing task
 
+        // Log activity start
         i(getString(R.string.task_activity_started))
 
         if (intent.hasExtra("task_edit")) {
@@ -73,20 +73,19 @@ class TaskManagerActivity : AppCompatActivity() {
         binding.btnAdd.setOnClickListener() {
             task.title = binding.taskTitle.text.toString()
             task.description = binding.taskDescription.text.toString()
-           // task.date = selectedDateTextView.text.toString() // Pass selected date
+            // task.date = selectedDateTextView.text.toString() // Pass selected date
             task.date = binding.taskDate.text.toString()
             if (task.title.isNotEmpty()) {
                 if (edit) {
                     app.tasks.update(task.copy())
-                }
-                else{
+                } else {
                     app.tasks.create(task.copy())
                 }
                 setResult(RESULT_OK)
                 finish()
-            }
-            else {
-                Snackbar.make(it, getString(R.string.enter_task_title),
+            } else {
+                Snackbar.make(it,
+                    getString(R.string.enter_task_title),
                     Snackbar.LENGTH_LONG).show()
             }
         }
@@ -99,7 +98,6 @@ class TaskManagerActivity : AppCompatActivity() {
         // Register image picker callback
         registerImagePickerCallback()
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_task, menu)
@@ -129,11 +127,12 @@ class TaskManagerActivity : AppCompatActivity() {
                         } // end of if
                     }
 
-                    RESULT_CANCELED -> {}
-                    else -> {}
+                    RESULT_CANCELED -> {
+                    }
+                    else -> {
+                    }
                 }
             }
-
     }
 
     private fun showCalendarPicker() {
@@ -151,5 +150,3 @@ class TaskManagerActivity : AppCompatActivity() {
         picker.show(supportFragmentManager, picker.toString())
     }
 }
-
-
