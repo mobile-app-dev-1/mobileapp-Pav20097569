@@ -2,6 +2,7 @@
 
 <resources>
     <string name="app_name">MobileAssignment</string>
+    <string name="greetings">Dzien Dobry!</string>
     <string name="button_addTask">Dodaj zadanie</string>
     <string name="hint_TaskTitle">Nazwa zadania</string>
     <string name="hint_taskDescription">Opis zadania</string>
