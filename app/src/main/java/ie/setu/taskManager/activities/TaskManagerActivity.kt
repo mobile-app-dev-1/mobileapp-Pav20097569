@@ -64,10 +64,15 @@ class TaskManagerActivity : AppCompatActivity() {
             binding.taskTitle.setText(task.title)
             binding.taskDescription.setText(task.description)
             binding.btnAdd.text = getString(R.string.save_task)
-            Picasso.get()
-                .load(task.image)
-                .into(binding.taskImage)
+            if (task.image.isNotEmpty()) {
+                Picasso.get().load(task.image).into(binding.taskImage)
+            } else {
+                // Load default image if task.image is null or empty
+                Picasso.get().load(R.drawable.default_image).into(binding.taskImage)
+            }
         }
+
+
 
         // Set click listener for add button
         binding.btnAdd.setOnClickListener() {
@@ -113,23 +118,25 @@ class TaskManagerActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
     private fun registerImagePickerCallback() {
         imageIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { result ->
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 when (result.resultCode) {
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Result ${result.data!!.data}")
-                            task.image = result.data!!.data.toString()
-                            Picasso.get().load(task.image).into(binding.taskImage)
-                        } // end of if
+                            // Check if data is available and then update task.image
+                            result.data!!.data?.let { uri ->
+                                task.image = uri.toString()
+                                Picasso.get().load(task.image).into(binding.taskImage)
+                            }
+                        }
                     }
-
                     RESULT_CANCELED -> {
+                        // Handle cancellation if needed
                     }
                     else -> {
+                        // Handle other cases if needed
                     }
                 }
             }
