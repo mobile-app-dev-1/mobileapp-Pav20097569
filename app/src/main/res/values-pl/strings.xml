@@ -16,4 +16,9 @@
     <string name="select_task_image">Wybierz obraz zadania</string>
     <string name="due_date">Termin wykonania</string>
 
+
+
+    <!-- to toggle the open close button of the navigation drawer -->
+    <string name="nav_open">Otworz</string>
+    <string name="nav_close">Zamknij</string>
 </resources>
