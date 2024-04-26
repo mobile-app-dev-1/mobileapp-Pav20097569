@@ -32,7 +32,7 @@ class TaskManagerActivity : AppCompatActivity() {
     // Initialize a TaskManagerModel object
     private var task = TaskManagerModel()
     private lateinit var app: MainApp
-
+    var edit = false //tracks if we arrived here via an existing task
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,7 +53,6 @@ class TaskManagerActivity : AppCompatActivity() {
 
         // Initialize app and task
         app = application as MainApp
-        var edit = false // tracks if we arrived here via an existing task
 
         // Log activity start
         i(getString(R.string.task_activity_started))
@@ -64,12 +63,14 @@ class TaskManagerActivity : AppCompatActivity() {
             binding.taskTitle.setText(task.title)
             binding.taskDescription.setText(task.description)
             binding.btnAdd.text = getString(R.string.save_task)
-            if (task.image.isNotEmpty()) {
+            if (task.image.path != null && task.image.path!!.isNotEmpty()) {
+                // Uri is not empty, load the image
                 Picasso.get().load(task.image).into(binding.taskImage)
             } else {
-                // Load default image if task.image is null or empty
+                // Uri is empty or null, load default image
                 Picasso.get().load(R.drawable.default_image).into(binding.taskImage)
             }
+
         }
 
 
@@ -97,7 +98,7 @@ class TaskManagerActivity : AppCompatActivity() {
 
         // Set click listener for choose image button
         binding.chooseImage.setOnClickListener {
-            showImagePicker(imageIntentLauncher)
+            showImagePicker(imageIntentLauncher,this)
         }
 
         // Register image picker callback
@@ -118,29 +119,33 @@ class TaskManagerActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+
     private fun registerImagePickerCallback() {
         imageIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                when (result.resultCode) {
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Result ${result.data!!.data}")
-                            // Check if data is available and then update task.image
-                            result.data!!.data?.let { uri ->
-                                task.image = uri.toString()
-                                Picasso.get().load(task.image).into(binding.taskImage)
-                            }
-                        }
+
+                            val image = result.data!!.data!!
+                            contentResolver.takePersistableUriPermission(image,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            task.image = image
+                            Picasso.get()
+                                .load(task.image)
+                                .into(binding.taskImage)
+                            binding.chooseImage.setText(R.string.change_task_image)
+                        } // end of if
                     }
-                    RESULT_CANCELED -> {
-                        // Handle cancellation if needed
-                    }
-                    else -> {
-                        // Handle other cases if needed
-                    }
+                    RESULT_CANCELED -> { } else -> { }
                 }
             }
     }
+
+
 
     private fun showCalendarPicker() {
         val builder = MaterialDatePicker.Builder.datePicker()
