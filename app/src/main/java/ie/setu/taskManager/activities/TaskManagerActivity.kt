@@ -79,7 +79,7 @@ class TaskManagerActivity : AppCompatActivity() {
         binding.btnAdd.setOnClickListener() {
             task.title = binding.taskTitle.text.toString()
             task.description = binding.taskDescription.text.toString()
-            // task.date = selectedDateTextView.text.toString() // Pass selected date
+            task.date = selectedDateTextView.text.toString() // Pass selected date
             task.date = binding.taskDate.text.toString()
             if (task.title.isNotEmpty()) {
                 if (edit) {

@@ -42,7 +42,20 @@ class TaskJSONStore(private val context: Context) : TaskStore {
 
 
     override fun update(task: TaskManagerModel) {
-        // todo
+        val tasksList = findAll() as ArrayList<TaskManagerModel>
+        val foundTask: TaskManagerModel? = tasksList.find { p -> p.id == task.id }
+        if (foundTask != null) {
+            foundTask.title = task.title
+            foundTask.description = task.description
+            foundTask.image = task.image
+            foundTask.date = task.date
+        }
+        serialize()
+    }
+
+    override fun delete(task: TaskManagerModel){
+        tasks.remove(task)
+        serialize()
     }
 
     private fun serialize() {

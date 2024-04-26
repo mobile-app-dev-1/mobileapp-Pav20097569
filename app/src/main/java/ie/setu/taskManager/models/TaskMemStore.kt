@@ -24,9 +24,15 @@ class TaskMemStore : TaskStore {
         if (foundTask != null) {
             foundTask.title = task.title
             foundTask.description = task.description
+            foundTask.image = task.image
             foundTask.date = task.date
             logAll()
         }
+    }
+
+
+    override fun delete(task: TaskManagerModel) {
+       tasks.remove(task)
     }
 
     private fun logAll() {

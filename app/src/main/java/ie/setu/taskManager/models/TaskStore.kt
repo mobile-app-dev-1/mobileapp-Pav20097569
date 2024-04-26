@@ -4,4 +4,5 @@ interface TaskStore {
     fun findAll(): List<TaskManagerModel>
     fun create(task: TaskManagerModel)
     fun update(task: TaskManagerModel)
+    fun delete(task: TaskManagerModel)
 }
