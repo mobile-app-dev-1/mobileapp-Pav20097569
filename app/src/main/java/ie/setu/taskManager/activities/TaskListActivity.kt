@@ -107,6 +107,15 @@ class TaskListActivity : AppCompatActivity(), TaskListener {
             }
         }
 
+
+
+
+
+
+
+
+
+
     override fun onTaskClick(task: TaskManagerModel) {
         // Launch TaskManagerActivity with the selected task for editing
         val launcherIntent = Intent(this, TaskManagerActivity::class.java)
