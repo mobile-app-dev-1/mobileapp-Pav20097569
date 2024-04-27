@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,9 +17,12 @@ import ie.setu.taskManager.R
 import ie.setu.taskManager.databinding.ActivityMainBinding
 import ie.setu.taskManager.helpers.showImagePicker
 import ie.setu.taskManager.main.MainApp
+import ie.setu.taskManager.models.TaskJSONStore
 import ie.setu.taskManager.models.TaskManagerModel
+import ie.setu.taskManager.models.TaskStore
 import timber.log.Timber.i
 import java.text.SimpleDateFormat
+import java.util.ArrayList
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -28,6 +32,9 @@ class TaskManagerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
     private lateinit var selectedDateTextView: TextView
+    private lateinit var searchView: SearchView
+    private lateinit var searchList: ArrayList<TaskJSONStore>
+
 
     // Initialize a TaskManagerModel object
     private var task = TaskManagerModel()
