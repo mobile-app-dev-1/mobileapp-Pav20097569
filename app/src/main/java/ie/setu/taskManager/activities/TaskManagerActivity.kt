@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -16,9 +18,12 @@ import ie.setu.taskManager.R
 import ie.setu.taskManager.databinding.ActivityMainBinding
 import ie.setu.taskManager.helpers.showImagePicker
 import ie.setu.taskManager.main.MainApp
+import ie.setu.taskManager.models.TaskJSONStore
 import ie.setu.taskManager.models.TaskManagerModel
+import ie.setu.taskManager.models.TaskStore
 import timber.log.Timber.i
 import java.text.SimpleDateFormat
+import java.util.ArrayList
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -29,9 +34,12 @@ class TaskManagerActivity : AppCompatActivity() {
     private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
     private lateinit var selectedDateTextView: TextView
 
+
+
+
     // Initialize a TaskManagerModel object
-    private var task = TaskManagerModel()
-    private lateinit var app: MainApp
+   private var task = TaskManagerModel()
+   private lateinit var app: MainApp
     var edit = false //tracks if we arrived here via an existing task
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,8 +93,10 @@ class TaskManagerActivity : AppCompatActivity() {
             if (task.title.isNotEmpty()) {
                 if (edit) {
                     app.tasks.update(task.copy())
+
                 } else {
                     app.tasks.create(task.copy())
+
                 }
                 setResult(RESULT_OK)
                 finish()
@@ -104,6 +114,7 @@ class TaskManagerActivity : AppCompatActivity() {
 
         // Register image picker callback
         registerImagePickerCallback()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
