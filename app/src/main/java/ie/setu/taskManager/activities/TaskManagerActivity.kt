@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -32,13 +33,13 @@ class TaskManagerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
     private lateinit var selectedDateTextView: TextView
-    private lateinit var searchView: SearchView
-    private lateinit var searchList: ArrayList<TaskJSONStore>
+
+
 
 
     // Initialize a TaskManagerModel object
-    private var task = TaskManagerModel()
-    private lateinit var app: MainApp
+   private var task = TaskManagerModel()
+   private lateinit var app: MainApp
     var edit = false //tracks if we arrived here via an existing task
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,8 +93,10 @@ class TaskManagerActivity : AppCompatActivity() {
             if (task.title.isNotEmpty()) {
                 if (edit) {
                     app.tasks.update(task.copy())
+
                 } else {
                     app.tasks.create(task.copy())
+
                 }
                 setResult(RESULT_OK)
                 finish()
@@ -111,6 +114,7 @@ class TaskManagerActivity : AppCompatActivity() {
 
         // Register image picker callback
         registerImagePickerCallback()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -5,12 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+
+import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import ie.setu.taskManager.R
@@ -23,9 +26,16 @@ import ie.setu.taskManager.models.TaskManagerModel
 class TaskListActivity : AppCompatActivity(), TaskListener {
     private lateinit var app: MainApp
     private lateinit var binding: ActivityTaskListBinding
-    private var position: Int = 0
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
+    private lateinit var adapter: TaskAdapter
+    private var position: Int = 0
+
+    private var allTasks: MutableList<TaskManagerModel> = mutableListOf()
+
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,16 +50,15 @@ class TaskListActivity : AppCompatActivity(), TaskListener {
         val toggle = ActionBarDrawerToggle(
             this,
             drawerLayout,
-            binding.topAppBar, // Pass the topAppBar reference here
+            binding.topAppBar,
             R.string.nav_open,
             R.string.nav_close
         )
         drawerLayout.addDrawerListener(toggle)
-        toggle.syncState() // Synchronize the state of the toggle button with the drawer layout
-
+        toggle.syncState()
 
         binding.topAppBar.title = title
-        setSupportActionBar(binding.topAppBar) // Set the top app bar as the support action bar
+        setSupportActionBar(binding.topAppBar)
 
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -60,16 +69,53 @@ class TaskListActivity : AppCompatActivity(), TaskListener {
             true
         }
 
-        // Initialize the MainApp instance
+        // Initialize the adapter with an empty list initially ///// NEW CODE __________________________________
+        adapter = TaskAdapter(allTasks, this)
+        binding.recyclerView.adapter = adapter
+
         app = application as MainApp
 
-        // Set up RecyclerView
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = TaskAdapter(app.tasks.findAll(), this)
+        adapter = TaskAdapter(allTasks, this) // Initialize your adapter with allTasks
+        binding.recyclerView.adapter = adapter // Set the adapter to the RecyclerView
 
-        // Set toolbar title
-        binding.topAppBar.title = title // Name of the Project
+
+        // Load tasks from data source
+        //loadTasks()
+
+        // Set up search view
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let { query ->
+                    filterTasks(query)
+                }
+                return true
+            }
+        })
+
+
+        loadTasks()
+    }
+
+    private fun loadTasks() {
+        allTasks.clear()
+        allTasks.addAll(app.tasks.findAll())
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun filterTasks(query: String) {
+        val filteredTasks = allTasks.filter { task ->
+            task.title.contains(query, ignoreCase = true) || task.description.contains(
+                query,
+                ignoreCase = true
+            )
+        }
+        adapter.setFilteredList(filteredTasks)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -80,7 +126,6 @@ class TaskListActivity : AppCompatActivity(), TaskListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_add -> {
-                // Launch TaskManagerActivity when add item is clicked
                 val launcherIntent = Intent(this, TaskManagerActivity::class.java)
                 getResult.launch(launcherIntent)
             }
@@ -88,36 +133,38 @@ class TaskListActivity : AppCompatActivity(), TaskListener {
         return super.onOptionsItemSelected(item)
     }
 
+
+
     private val getResult =
         registerForActivityResult(
-            // Register a callback for when TaskManagerActivity finishes
-            ActivityResultContracts.StartActivityForResult(),
+            ActivityResultContracts.StartActivityForResult()
         ) {
             when(it.resultCode) {
                 Activity.RESULT_OK ->
-                    (binding.recyclerView.adapter)?.notifyItemRangeChanged(
-                        0,
-                        app.tasks  .findAll().size)
+                 //   (binding.recyclerView.adapter)?.notifyItemRangeChanged(
+                  //      0,
+                    //    app.tasks.findAll().size)
+
+                    loadTasks()
+
                 Activity.RESULT_CANCELED ->
                     Snackbar.make(
                         binding.root,
                         getString(R.string.task_add_cancelled), Snackbar.LENGTH_LONG).show()
-                99 ->
-                    (binding.recyclerView.adapter)?.notifyItemRemoved(position)
+                99 -> {
+                  //  (binding.recyclerView.adapter)?.notifyItemRemoved(position)
+                    if(position != RecyclerView.NO_POSITION){
+                        allTasks.removeAt(position)
+                        adapter.notifyItemRemoved(position)
+                    }
+                }
+
+
             }
         }
 
 
-
-
-
-
-
-
-
-
     override fun onTaskClick(task: TaskManagerModel, pos: Int) {
-        // Launch TaskManagerActivity with the selected task for editing
         val launcherIntent = Intent(this, TaskManagerActivity::class.java)
         launcherIntent.putExtra("task_edit", task)
         position = pos

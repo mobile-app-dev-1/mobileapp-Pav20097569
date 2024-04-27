@@ -1,9 +1,13 @@
 package ie.setu.taskManager.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import ie.setu.taskManager.R
 import ie.setu.taskManager.databinding.CardTaskBinding
 import ie.setu.taskManager.models.TaskManagerModel
 
@@ -13,12 +17,16 @@ interface TaskListener {
 }
 
 // Adapter for the RecyclerView to display tasks
-class TaskAdapter(
-    // List of tasks to display
-    private var tasks: List<TaskManagerModel>,
-    // Listener for task clicks
-    private val listener: TaskListener
-) : RecyclerView.Adapter<TaskAdapter.MainHolder>() {
+class TaskAdapter(private var tasks: List<TaskManagerModel>, private val listener: TaskListener) :
+    RecyclerView.Adapter<TaskAdapter.MainHolder>() {
+
+
+
+    fun setFilteredList(tasks: List<TaskManagerModel>){
+        this.tasks = tasks
+        notifyDataSetChanged()
+    }
+
     // Create view holder
     override fun onCreateViewHolder(
         parent: ViewGroup,
