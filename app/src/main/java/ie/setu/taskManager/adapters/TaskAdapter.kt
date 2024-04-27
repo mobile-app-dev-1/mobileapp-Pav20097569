@@ -3,12 +3,13 @@ package ie.setu.taskManager.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import ie.setu.taskManager.databinding.CardTaskBinding
 import ie.setu.taskManager.models.TaskManagerModel
 
 // Interface for listening to task clicks
 interface TaskListener {
-    fun onTaskClick(task: TaskManagerModel)
+    fun onTaskClick(task: TaskManagerModel , position: Int)
 }
 
 // Adapter for the RecyclerView to display tasks
@@ -43,8 +44,9 @@ class TaskAdapter(
         fun bind(task: TaskManagerModel, listener: TaskListener) {
             binding.taskTitle.text = task.title
             binding.taskDescription.text = task.description
-            binding.taskDate.text = task.date // Make sure "task.date" is correctly referencing the date property
-            binding.root.setOnClickListener { listener.onTaskClick(task) }
+            binding.taskDate.text = task.date
+            Picasso.get().load(task.image).resize(200,200).into(binding.imageIcon)
+            binding.root.setOnClickListener { listener.onTaskClick(task,adapterPosition) }
         }
     }
 }

@@ -12,23 +12,6 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/taskTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
-            tools:text="A Title" />
-
-        <TextView
-            android:id="@+id/taskDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/taskTitle"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            tools:text="A Description" />
-
-
         <ImageView
             android:id="@+id/imageIcon"
             android:layout_width="64dp"
@@ -38,15 +21,30 @@
             android:contentDescription="@string/change_task_image" />
 
         <TextView
+            android:id="@+id/taskTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/imageIcon"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            tools:text="A Title" />
+
+        <TextView
+            android:id="@+id/taskDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/taskTitle"
+            android:layout_toEndOf="@id/imageIcon"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            tools:text="A Description" />
+
+        <TextView
             android:id="@+id/taskDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/taskDescription"
+            android:layout_toEndOf="@id/imageIcon"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             tools:text="Task Date" />
-
-
-
 
     </RelativeLayout>
 
