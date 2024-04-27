@@ -40,16 +40,16 @@ class TaskManagerActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Set toolbar title
+        binding.topAppBar.title = title
+        setSupportActionBar(binding.topAppBar)
+
         // Initialize views
         selectedDateTextView = findViewById(R.id.taskDate)
         val chooseDateButton: Button = findViewById(R.id.btnDatePicker)
 
         // Set click listener for chooseDateButton
         chooseDateButton.setOnClickListener { showCalendarPicker() }
-
-        // Set toolbar title
-        binding.topAppBar.title = title
-        setSupportActionBar(binding.topAppBar)
 
         // Initialize app and task
         app = application as MainApp
@@ -108,6 +108,7 @@ class TaskManagerActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_task, menu)
+        if(edit) menu.getItem(1).isVisible = true
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -143,7 +144,7 @@ class TaskManagerActivity : AppCompatActivity() {
                                 .load(task.image)
                                 .into(binding.taskImage)
                             binding.chooseImage.setText(R.string.change_task_image)
-                        } // end of if
+                        }
                     }
                     RESULT_CANCELED -> { } else -> { }
                 }
