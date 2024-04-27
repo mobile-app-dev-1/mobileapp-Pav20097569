@@ -72,7 +72,7 @@
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:backgroundTint="?attr/colorSecondary"
-                    android:text="@string/due_date" /> <!-- Changed text to "Due Date" -->
+                    android:text="@string/due_date" />
 
                 <TextView
                     android:id="@+id/taskDate"

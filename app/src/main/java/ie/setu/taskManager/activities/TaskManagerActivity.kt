@@ -62,6 +62,7 @@ class TaskManagerActivity : AppCompatActivity() {
             task = intent.extras?.getParcelable("task_edit")!!
             binding.taskTitle.setText(task.title)
             binding.taskDescription.setText(task.description)
+            binding.taskDate.setText(task.date)
             binding.btnAdd.text = getString(R.string.save_task)
             if (task.image.path != null && task.image.path!!.isNotEmpty()) {
                 // Uri is not empty, load the image
@@ -80,7 +81,7 @@ class TaskManagerActivity : AppCompatActivity() {
             task.title = binding.taskTitle.text.toString()
             task.description = binding.taskDescription.text.toString()
             task.date = selectedDateTextView.text.toString() // Pass selected date
-            task.date = binding.taskDate.text.toString()
+           // task.date = binding.taskDate.text.toString()
             if (task.title.isNotEmpty()) {
                 if (edit) {
                     app.tasks.update(task.copy())
@@ -116,10 +117,14 @@ class TaskManagerActivity : AppCompatActivity() {
                 setResult(RESULT_CANCELED)
                 finish()
             }
+            R.id.item_delete -> {
+                app.tasks.delete(task)
+                setResult(99)
+                finish()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
-
 
     private fun registerImagePickerCallback() {
         imageIntentLauncher =
