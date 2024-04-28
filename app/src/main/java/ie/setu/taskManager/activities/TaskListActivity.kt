@@ -33,10 +33,6 @@ class TaskListActivity : AppCompatActivity(), TaskListener {
 
     private var allTasks: MutableList<TaskManagerModel> = mutableListOf()
 
-
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTaskListBinding.inflate(layoutInflater)
@@ -62,14 +58,23 @@ class TaskListActivity : AppCompatActivity(), TaskListener {
 
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.nav_settings -> {
+                    Toast.makeText(this, "Settings Page", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                }
+
                 R.id.nav_account -> {
-                    Toast.makeText(this, "Account Page", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "My Account Page Currently Not Available", Toast.LENGTH_SHORT).show()
+                }
+
+                R.id.nav_logout -> {
+                    Toast.makeText(this, "Logout Not Available", Toast.LENGTH_SHORT).show()
                 }
             }
             true
         }
 
-        // Initialize the adapter with an empty list initially ///// NEW CODE __________________________________
+        // Initialize the adapter with an empty list initially
         adapter = TaskAdapter(allTasks, this)
         binding.recyclerView.adapter = adapter
 

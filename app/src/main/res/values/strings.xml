@@ -20,5 +20,8 @@
     <!-- to toggle the open close button of the navigation drawer -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
-    <string name="title_activity_splash_screen">SplashSCreen</string>
+    <string name="title_activity_splash_screen" translatable="false">SplashScreen</string>
+    <string name="title_activity_settings" translatable="false">SettingsActivity</string>
+    <string name="switch_DarkTheme">Dark Theme</string>
+
 </resources>
