@@ -4,7 +4,8 @@
     <style name="Base.Theme.TaskManager" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/md_theme_light_primary</item>
-        <item name="colorPrimaryDark">@color/md_theme_light_primary</item> <!-- Using same color as primary for primary dark -->
+        <item name="colorPrimaryDark">@color/md_theme_light_primary
+        </item> <!-- Using same color as primary for primary dark -->
         <item name="colorAccent">@color/md_theme_light_accent_color</item>
         <item name="android:windowBackground">@color/md_theme_light_background_color</item>
         <item name="android:textColorPrimary">@color/md_theme_light_text_color</item>
