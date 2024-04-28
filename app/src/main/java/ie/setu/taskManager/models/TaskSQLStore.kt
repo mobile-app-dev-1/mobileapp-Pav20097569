@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import androidx.core.net.toUri
+import com.github.ajalt.timberkt.Timber
 import timber.log.Timber.i
 
 // SQLite database constants
@@ -37,7 +38,7 @@ class TaskSQLStore(private val context: Context) : TaskStore {
         cursor.use {
             while (it.moveToNext()) {
                 tasks.add(
-                    //getTaskfromCursor(it)
+
                     TaskManagerModel(
                         id = cursor.getLong(0),
                         title = cursor.getString(1),
@@ -80,25 +81,19 @@ class TaskSQLStore(private val context: Context) : TaskStore {
             put(COLUMN_DATE, task.date)
         }
 
-        val selection = "$COLUMN_ID = ?"
-        val selectionArgs = arrayOf(task.id.toString())
-
-        val count = database.update(TABLE_NAME, values, selection, selectionArgs)
-        if (count != 1) {
-            // Handle update failure, if necessary
-            // You can log an error or throw an exception
-        }
     }
 
-
     override fun delete(task: TaskManagerModel) {
-        val selection = "$COLUMN_ID = ?"
-        val selectionArgs = arrayOf(task.id.toString())
+        try {
+            val selection = "$COLUMN_ID = ?"
+            val selectionArgs = arrayOf(task.id.toString())
 
-        val count = database.delete(TABLE_NAME, selection, selectionArgs)
-        if (count != 1) {
-            // Handle deletion failure, if necessary
-            // You can log an error or throw an exception
+            val count = database.delete(TABLE_NAME, selection, selectionArgs)
+            if (count != 1) {
+                i("Failed to delete task")
+            }
+        } catch (e: Exception) {
+            Timber.e { "Error deleting task" }
         }
     }
 
