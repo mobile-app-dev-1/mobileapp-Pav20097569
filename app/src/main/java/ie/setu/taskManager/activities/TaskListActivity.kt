@@ -139,7 +139,21 @@ class TaskListActivity : AppCompatActivity(), TaskListener {
     }
 
 
-
+    private val addTaskLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // Task added successfully, reload tasks from database
+            loadTasks()
+        } else {
+            // Task addition was cancelled
+            Snackbar.make(
+                binding.root,
+                getString(R.string.task_add_cancelled),
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
 
 
     private val getResult =

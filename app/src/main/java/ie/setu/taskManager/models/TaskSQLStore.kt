@@ -45,7 +45,7 @@ class TaskSQLStore(private val context: Context) : TaskStore {
                         image = cursor.getString(3).toUri(),
                         date = cursor.getString(4),
 
-                    )
+                        )
                 )
             }
         }
@@ -54,9 +54,7 @@ class TaskSQLStore(private val context: Context) : TaskStore {
         return tasks
     }
 
- //   override fun findById(id: Long): TaskManagerModel? {
-  //      TODO("Not yet implemented")
-   // }
+
 
     override fun create(task: TaskManagerModel) {
 
@@ -75,28 +73,50 @@ class TaskSQLStore(private val context: Context) : TaskStore {
     }
 
     override fun update(task: TaskManagerModel) {
-        TODO("Not yet implemented")
+        val values = ContentValues().apply {
+            put(COLUMN_TITLE, task.title)
+            put(COLUMN_DESCRIPTION, task.description)
+            put(COLUMN_IMAGE, task.image.toString())
+            put(COLUMN_DATE, task.date)
+        }
+
+        val selection = "$COLUMN_ID = ?"
+        val selectionArgs = arrayOf(task.id.toString())
+
+        val count = database.update(TABLE_NAME, values, selection, selectionArgs)
+        if (count != 1) {
+            // Handle update failure, if necessary
+            // You can log an error or throw an exception
+        }
     }
+
 
     override fun delete(task: TaskManagerModel) {
-        TODO("Not yet implemented")
+        val selection = "$COLUMN_ID = ?"
+        val selectionArgs = arrayOf(task.id.toString())
+
+        val count = database.delete(TABLE_NAME, selection, selectionArgs)
+        if (count != 1) {
+            // Handle deletion failure, if necessary
+            // You can log an error or throw an exception
+        }
     }
 
-}
 
-private class TaskDbHelper(context: Context) :
-    SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
+    private class TaskDbHelper(context: Context) :
+        SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
 
-    private val createTableSQL =
-        "CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "$COLUMN_TITLE TEXT, $COLUMN_DESCRIPTION TEXT, $COLUMN_IMAGE TEXT, " +
-                "$COLUMN_DATE TEXT)"
+        private val createTableSQL =
+            "CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "$COLUMN_TITLE TEXT, $COLUMN_DESCRIPTION TEXT, $COLUMN_IMAGE TEXT, " +
+                    "$COLUMN_DATE TEXT)"
 
-    override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL(createTableSQL)
-    }
+        override fun onCreate(db: SQLiteDatabase) {
+            db.execSQL(createTableSQL)
+        }
 
-    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        // Handle database schema upgrades if needed
+        override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+            // Handle database schema upgrades if needed
+        }
     }
 }
